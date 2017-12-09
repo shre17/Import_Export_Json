@@ -1,0 +1,63 @@
+<form action="/articles/import_json" method="post">
+  <input type="file" name="file">
+  <button type="submit">Import Json File</button>
+</form>
+
+<form action="/articles/import_csv" method="post">
+  <input type="file" name="file">
+  <button type="submit">Import CSV File</button>
+</form>
+
+<form action="/articles/export_json" method="get">
+  <button type="submit">Export As Json</button>
+</form>
+
+<form action="/articles/export_csv" method="get">
+  <button type="submit">Export As CSV</button>
+</form>
+
+
+<%= link_to articles_path(format: "xlsx") do %>
+<input type="submit" value="Export As Excel">
+<% end %>
+
+<!-- <form action="/articles/export_excel" method="get">
+  <button type="submit">Export As Excel</button>
+</form> -->
+
+<%- model_class = Article -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:title) %></th>
+      <th><%= model_class.human_attribute_name(:text) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @articles.each do |article| %>
+      <tr>
+        <td><%= link_to article.id, article_path(article) %></td>
+        <td><%= article.title %></td>
+        <td><%= article.text %></td>
+        <td>
+          <%#= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_location_path(location), :class => 'btn btn-default btn-xs' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      article_path(article),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-xs btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_article_path,
+            :class => 'btn btn-primary' %>

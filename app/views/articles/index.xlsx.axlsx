@@ -1,0 +1,11 @@
+wb = xlsx_package.workbook
+
+wb.add_worksheet(name: "Articles") do |sheet|
+  # this is the head row of your spreadsheet
+  sheet.add_row %w(id title text)
+  
+  # each user is a row on your spreadsheet
+  @articles.each do |article|
+    sheet.add_row [article.id, article.title, article.text]
+  end
+end
